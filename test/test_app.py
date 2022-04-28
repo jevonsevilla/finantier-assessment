@@ -1,6 +1,7 @@
 import pytest
 from project.app import root, predict_default
 
+
 sample_input = {
     "customerID": "7590-VHVEG",
     "gender": "Male",
@@ -28,7 +29,7 @@ class TestRoot(object):
     def test_return_welcome_message(self):
         test = root()
 
-        is_responding = isinstance(test, str)
+        is_responding = isinstance(test, dict)
 
         assert is_responding, "homepage is not returning message"
 
@@ -36,6 +37,6 @@ class TestProcessTelecomData(object):
     def test_on_returning_prediction(self):
         test = predict_default(sample_input)
         
-        is_prediction = test.Default_prob
+        is_prediction = test['Default_prob']
         
-        assert isinstance(is_prediction, float), "no predictions"
+        assert is_prediction is not None , "no predictions"

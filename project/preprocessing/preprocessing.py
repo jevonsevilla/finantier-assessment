@@ -4,7 +4,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 def load_data(fp):
     """
-    
+    Load data from filepath. Removes error rows and empty rows in the process
     """
 
     df = pd.read_csv(fp)
@@ -18,8 +18,15 @@ def load_data(fp):
 
     
 def process_telecom_data(df, fp, train_encoding=False, target=False):
+    """
+    Process and transform data from raw inputs to model ready features.
+    Save encodings in filepath for use on future data.
+    """
     # TotalCharges to numeric
     df['TotalCharges'] = pd.to_numeric(df.TotalCharges.replace(" ", "0"))
+
+    # drop customerID
+    df = df.drop("customerID", axis=1)
 
     # encode target
     if target:

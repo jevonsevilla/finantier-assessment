@@ -2,6 +2,8 @@
 import uvicorn
 import pandas as pd
 import xgboost as xgb
+import sys
+print(sys.path)
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -14,7 +16,7 @@ class CustomerDetails(BaseModel):
     customerID: str
     gender: str
     SeniorCitizen: int
-    Partner: str                           # can still pass non string as string
+    Partner: str                    
     Dependents: str
     tenure: int
     PhoneService: str
@@ -37,7 +39,7 @@ class DefaultPrediction(BaseModel):
     """
     pydantic class to validate API output
     """
-    Default: float
+    Default_prob: float
 
 
 # Load the model
@@ -69,7 +71,7 @@ def predict_default(inputs: CustomerDetails):
     following inputs required by the CustomerDetail validator
     """
     # convert data into dataframe
-    inputs = inputs.dict()
+    inputs = dict(inputs)
     df = pd.DataFrame([inputs])
 
     # preprocess and add features
@@ -78,10 +80,10 @@ def predict_default(inputs: CustomerDetails):
     print(df.columns)
 
     # predict sales
-    pred = model.predict_proba(df)[::,1]
+    pred = model.predict_proba(df)[::,1][0]
 
     return {
-        "Sale": pred
+        "Default_prob": pred
     }
 
 

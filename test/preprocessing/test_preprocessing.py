@@ -28,7 +28,7 @@ class TestLoadData(object):
 class TestProcessTelecomData(object):
     def test_on_complete_columns(self):
         df = load_data('project/data/finantier_data_technical_test_dataset.csv')
-        df = process_telecom_data(df)
+        df = process_telecom_data(df, "project/preprocessing/encoder.pickle" )
 
         cols = ['gender_Male', 'SeniorCitizen_1.0', 'Partner_Yes', 'Dependents_Yes',
         'PhoneService_Yes', 'MultipleLines_No phone service',
@@ -41,9 +41,8 @@ class TestProcessTelecomData(object):
         'StreamingMovies_No internet service', 'StreamingMovies_Yes',
         'Contract_One year', 'Contract_Two year', 'PaperlessBilling_Yes',
         'PaymentMethod_Credit card (automatic)',
-        'PaymentMethod_Electronic check', 'PaymentMethod_Mailed check',
-        'customerID', 'tenure', 'MonthlyCharges', 'TotalCharges', 'Default']
+        'PaymentMethod_Electronic check', 'PaymentMethod_Mailed check', 'tenure', 'MonthlyCharges', 'TotalCharges', 'Default']
         
-        is_complete = df.columns.to_list() == Cols
+        is_complete = df.columns.to_list() == cols
         
         assert is_complete, "data is processed incompletely, should contain the ff: {}".format(cols)
