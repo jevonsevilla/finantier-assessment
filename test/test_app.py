@@ -22,7 +22,7 @@ sample_input = {
     "PaperlessBilling": "Yes",
     "PaymentMethod": "Bank transfer (automatic)",
     "MonthlyCharges": 64.762,
-    "TotalCharges": 2279.7155,
+    "TotalCharges": 2279.7155
     }
 
 class TestRoot(object):
