@@ -5,36 +5,44 @@ import xgboost as xgb
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from preprocessing.preprocessing import merge_features, process
+from preprocessing.preprocessing import process_telecom_data
 
-
-class StoreDetails(BaseModel):
+class CustomerDetails(BaseModel):
     """
     pydantic class to validate API inputs
     """
-    Store: int
-    DayOfWeek: int
-    Date: str                           # can still pass non string as string
-    Customers: int
-    Open: int
-    Promo: int
-    StateHoliday: str
-    SchoolHoliday: int
+    customerID: str
+    gender: str
+    SeniorCitizen: int
+    Partner: str                           # can still pass non string as string
+    Dependents: str
+    tenure: int
+    PhoneService: str
+    MultipleLines: str
+    InternetService: str
+    OnlineSecurity: str
+    OnlineBackup: str
+    DeviceProtection: str
+    TechSupport: str
+    StreamingTV: str
+    StreamingMovies: str
+    Contract: str
+    PaperlessBilling: str
+    PaymentMethod: str
+    MonthlyCharges: float
+    TotalCharges: float
 
 
-class SalesPrediction(BaseModel):
+class DefaultPrediction(BaseModel):
     """
     pydantic class to validate API output
     """
-    Sale: float
+    Default: float
 
 
 # Load the model
-model = xgb.XGBRegressor()
-model.load_model('model/xgboost_model.txt')
-
-# Load the store data
-df_store = pd.read_pickle('data/store_features.pickle')
+model = xgb.XGBClassifier()
+model.load_model('model/xgboost_model.pickle.dat')
 
 
 # Initialize an instance of FastAPI
@@ -49,16 +57,16 @@ def root():
 
     display welcome message
     """
-    return {"message": "Welcome to Your GCash Assessment FastAPI"}
+    return {"message": "Welcome to Your Finantier Assessment FastAPI"}
 
 
-@app.post("/predict", response_model=SalesPrediction)
-def predict_sales(inputs: StoreDetails):
+@app.post("/predict", response_model=CustomerDetails)
+def predict_sales(inputs: CustomerDetails):
     """
     predict endpoint:
 
-    return predicted sales given store data
-    following inputs required by the StoreDetails validator
+    return predicted Default probability given customer data
+    following inputs required by the CustomerDetail validator
     """
     # convert data into dataframe
     inputs = inputs.dict()
@@ -66,17 +74,11 @@ def predict_sales(inputs: StoreDetails):
 
     # preprocess and add features
     print(df)
-    df = merge_features(df, df_store)
-    df = process(df, isTest=True)
+    df = process_telecom_data(df, 'preprocessing/encoder.pickle')
     print(df.columns)
 
     # predict sales
-    pred = model.predict(df)
-
-    # add heuristics to results
-    pred = pred.clip(min=0)
-    if df.Open[0]==0:
-        pred = 0
+    pred = model.predict_proba(df)[::,1]
 
     return {
         "Sale": pred
