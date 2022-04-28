@@ -68,13 +68,13 @@ After downloading and installing [docker daemon](https://docs.docker.com/get-doc
         >>> docker run -p 80:80 fastapiapp:latest
 ```
 
-# Development
+# Development and CI/CD
 Push and Pull Requests to the masterbranch trigger Github Actions that automatically deploy the application to Heroku. 
 The app that is deployed is built in docker and utilizes FastAPI to serve predictions made with an XGBoost Model.
 
 The application and its components are developed in the JupyterNotebook. Outputs are then saved in the relevant directories in order to make changes to the model.
 
-relevant outputs:
+relevant outputs:  
 `project/model/xgboost_model.pickle.dat`: saved model that was fit using *gridsearchCV* with **recall** as the scoring method to search for the best hyperparameters  
 `project/preprocessing/encoder.pickle`: saved *OneHotEncoder* object to apply the fitted encodings to future datasets.
 
