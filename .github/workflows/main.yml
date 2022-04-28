@@ -32,9 +32,6 @@ jobs:
         run: |
           flake8 project/app.py --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 project/preprocessing/preprocessing.py --count --select=E9,F63,F7,F82 --show-source --statistics
-      - name: Test with pytest
-        run: |
-          python -m pytest
           
       - name: Log in to Github Packages
         run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin docker.pkg.github.com
