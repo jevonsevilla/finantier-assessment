@@ -51,7 +51,8 @@ requests to the API can be completed as shown.
     - [Example Output](#example-output)
 - [Table of contents](#table-of-contents)
 - [Usage](#usage)
-- [Development](#development)
+    - [Local Machine](#local-machine)
+- [Development and CI/CD](#development-and-ci/cd)
 
 # Usage
 ## Current Model Performance
@@ -69,10 +70,10 @@ After downloading and installing [docker daemon](https://docs.docker.com/get-doc
 ```
 
 # Development and CI/CD
-Push and Pull Requests to the masterbranch trigger Github Actions that automatically deploy the application to Heroku. 
-The app that is deployed is built in docker and utilizes FastAPI to serve predictions made with an XGBoost Model.
+Push and Pull Requests to the masterbranch trigger *Github Actions* that automatically deploy the application to *Heroku* and do some basic code linting. 
+The app that is deployed is built in *docker* and utilizes *FastAPI* to serve predictions made with an *XGBoost* Model.
 
-The application and its components are developed in the JupyterNotebook. Outputs are then saved in the relevant directories in order to make changes to the model.
+The application and its components are developed in the *JupyterNotebook*. Outputs are then saved in the relevant directories in order to make changes to the model.
 
 relevant outputs:  
 `project/model/xgboost_model.pickle.dat`: saved model that was fit using *gridsearchCV* with **recall** as the scoring method to search for the best hyperparameters  
