@@ -56,11 +56,25 @@ requests to the API can be completed as shown.
 # Usage
 ## Current Model Performance
 > Results on hold out test set  
-> AUC: 0.859
+> **AUC: 0.859**
 <!-- This is optional and it is used to give the user info on how to use the project after installation. This could be added in the Installation section also. -->
+
+## Local Machine
+After downloading and installing [docker daemon](https://docs.docker.com/get-docker/). The following commands will be able to deploy a docker container in your local machine. 
+```
+        >>> cd project
+        >>> cd pip install -r requirements.txt
+        >>> docker build -t fastapiapp:latest -f Dockerfile .
+        >>> docker run -p 80:80 fastapiapp:latest
+```
 
 # Development
 Push and Pull Requests to the masterbranch trigger Github Actions that automatically deploy the application to Heroku. 
 The app that is deployed is built in docker and utilizes FastAPI to serve predictions made with an XGBoost Model.
 
 The application and its components are developed in the JupyterNotebook. Outputs are then saved in the relevant directories in order to make changes to the model.
+
+relevant outputs:
+`project/model/xgboost_model.pickle.dat`: saved model that was fit using *gridsearchCV* with **recall** as the scoring method to search for the best hyperparameters  
+`project/preprocessing/encoder.pickle`: saved *OneHotEncoder* object to apply the fitted encodings to future datasets.
+
