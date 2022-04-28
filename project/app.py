@@ -60,8 +60,8 @@ def root():
     return {"message": "Welcome to Your Finantier Assessment FastAPI"}
 
 
-@app.post("/predict", response_model=CustomerDetails)
-def predict_sales(inputs: CustomerDetails):
+@app.post("/predict", response_model=DefaultPrediction)
+def predict_default(inputs: CustomerDetails):
     """
     predict endpoint:
 
