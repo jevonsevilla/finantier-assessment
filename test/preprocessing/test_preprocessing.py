@@ -1,7 +1,4 @@
 import pytest
-import pandas as pd
-from tables import Cols
-from yaml import load
 from project.preprocessing.preprocessing import load_data, process_telecom_data
 
 
